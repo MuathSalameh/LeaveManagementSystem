@@ -1,0 +1,31 @@
+﻿@model LeaveType
+
+@{
+    ViewData["Title"] = "Leave Type Details";
+}
+<div class="container row">
+    <div>
+        <h1>@Model.Name Details</h1>
+        <hr />
+    </div>
+    <div>
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Name
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.NumberOfDays)
+            </dt>
+            <dd class="col-sm-10">
+                @Model.NumberOfDays
+            </dd>
+        </dl>
+        <div>
+            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
+            <a class="btn btn-outline-primary" asp-action="Index">Back to List</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+﻿@model IEnumerable<LeaveType>
+
+<div class="container row">
+    <div class="mb-2 row">
+         <div class="col-12">
+            <a class="btn btn-primary" asp-action="Create">Create New</a>
+         </div>    
+    </div>
+    <div class="">
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                   Number Of Days
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                       @item.NumberOfDays
+                    </td>
+                    <td>
+                        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        <a class="btn btn-danger " asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td> 
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>
+   </div>
+

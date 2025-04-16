@@ -1,0 +1,118 @@
+﻿@model EmployeeLeaveAllocationVM
+@{
+
+    var isAdmin = User.IsInRole(SD.Role_Admin);
+    var isEmployee = User.IsInRole(SD.Role_Employee);
+    var isSupervisor = User.IsInRole(SD.Role_Supervisor);
+    ViewData["Title"] = isAdmin? "Employee's Leave Allocationss" : $"{Model.ApplicationUser?.FullName}Leave Allocation Details";
+    var message = isAdmin ? "No Allocations" : "You have no allocations . Please contact your administrator.";
+}
+
+<div class="container row">
+    <div>
+        <h1>@Model.ApplicationUser.FullName Leave Allocation Details</h1>
+        <hr />
+    </div>
+    <div>
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ApplicationUser.FullName)
+            </dt>
+            <dd class="col-sm-10">
+                @Model.ApplicationUser.FullName
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ApplicationUser.Email)
+            </dt>
+            <dd class="col-sm-10">
+                @Model.ApplicationUser.Email
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ApplicationUser.DateOfBirth)
+            </dt>
+            <dd class="col-sm-10">
+                @Model.ApplicationUser.DateOfBirth
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>
+                        Leave Name
+                    </th>
+                    <th>
+                        Original Allocation
+                    </th>
+                    <th>
+                        Current Allocation
+                    </th>               
+                    <th>
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="">
+                @if (Model?.LeaveAllocation != null && Model.LeaveAllocation.Any()) {
+                    @foreach (var leave in Model.LeaveAllocation)
+                    {
+                        <tr>
+                            <td>
+                                @leave.LeaveType?.Name
+                            </td>
+                            <td>
+                                @leave.LeaveType?.NumberOfDays
+                            </td>
+                            <td>
+                                @leave.Days
+                            </td>
+                            @if (isAdmin || isSupervisor)
+                            {
+                            <td>
+                             <a asp-controller="LeaveAllocation" asp-action="AdminEditAllocation" asp-route-id="@leave.LeaveAllocationId" class="btn btn-warning">Edit Allocation</a>
+                            </td>
+                            }
+                            else{
+                            <td>
+                               <a asp-controller="LeaveRequest" asp-action="Create" class="btn btn-dark">Request Leave</a>
+                            </td>
+                            }
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr class="alert alert-warning " role="alert">
+                        <td width="100%">
+                            <h2>
+                               @message 
+                            </h2>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>
+                        @if (isAdmin)
+                        {
+                            <form asp-action="AdminAllocateLeave" method="post" class="d-inline w-0">
+                                <input asp-for="ApplicationUser.Id" hidden />
+                                <input type="submit" class="btn btn-primary" value="Allocate Leave" />
+                            </form>
+                            <a asp-action="Details" asp-controller="LeaveAllocation" class="btn btn-dark m-0">Back to List</a>
+                        }
+                        else if (isEmployee) {
+                            <a asp-action="Index" asp-controller="LeaveRequest" class="btn btn-primary m-0">View Request History</a>
+                        }
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

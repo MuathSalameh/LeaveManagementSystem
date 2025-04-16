@@ -1,0 +1,89 @@
+﻿@model IEnumerable<LeaveRequest>
+
+<div class="container row">
+            <div class="mb-2 row">
+                <div class="col-12">
+                    <a class="btn btn-primary" asp-action="Create">Request Leave</a>
+                </div>
+            </div>
+            <div class="">
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.LeaveType)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.RequestStartDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.RequestEndtDate)
+                            </th>
+                            <th>
+                                Number Of Days
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.LeaveRequestStatus)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody class="">
+                        @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @item.LeaveType.Name
+                        </td>
+                        <td>
+                            @item.RequestStartDate.ToString("yyyy/MM/dd")
+                        </td>
+                        <td>
+                            @item.RequestEndtDate.ToString("yyyy/MM/dd")
+                        </td>
+                        <td>
+                            @(item.RequestEndtDate.DayNumber - item.RequestStartDate.DayNumber)
+                        </td>
+                        <td>
+                            @item.LeaveRequestStatus.Name
+                        </td>
+                        <td>
+                            @if(item.leaveRequestStatusId == SD.Request_Status_Pending)
+                            {
+                                <button data-id="@item.Id" class="btn btn-danger cancel-btn">Cancel</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<form asp-action="Cancel" id="cancelForm">
+    <input type="hidden" name="Id" id="LeaveRequestId" />
+</form>
+
+@section Scripts{
+    <script>
+        $(function(){
+            $('.cancel-btn').click(
+                function(e){
+                    swal({
+                   title : "Are you sure?" ,
+                   text : "Are you sure you want to cancel the Request ?",
+                   icon : "warning",
+                   buttons : true ,
+                   dangerMode : true
+                    }).then((confirm)=>{
+                        if(confirm){
+                            var btn = $(this); 
+                            var id = btn.data("id");    // data-id = "item.id"
+                            $('#LeaveRequestId').val(id);
+                            $('#cancelForm').submit();
+                        }
+                    });
+                }
+            );
+        });
+    </script>
+}

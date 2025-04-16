@@ -1,0 +1,37 @@
+﻿@model IEnumerable<ApplicationUser>
+
+<div class="container row">
+    <div class="">
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>
+                       @Html.DisplayNameFor(Model => Model.FullName);
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(Model => Model.Email);
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.FullName
+                        </td>
+                        <td>
+                            @item.Email
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" asp-action="Index" asp-controller="LeaveAllocation" asp-route-EmpId="@item.Id">View Allocations</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

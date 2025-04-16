@@ -1,0 +1,28 @@
+﻿@model LeaveAllocation
+
+@{
+    ViewData["Titile"] = "Edit Allocations" ; 
+}
+<div class="row ">
+    <div>
+        <h1>Editing @Model.Employee.FullName Leave Allocations </h1>
+    </div>
+    <hr />
+    <div>
+        <form asp-action="AdminEditAllocation" method="post">
+            <div asp-validation-summary="ModelOnly" ></div>
+            <input asp-for="LeaveAllocationId" hidden />
+            <input asp-for="Employee.Id" hidden />
+            <input asp-for="LeaveType.Id" hidden />
+            <div class="form-group my-2">
+                <label asp-for="Days" class="form-label"></label>
+                <input asp-for="Days" class="form-control" />
+                <span asp-validation-for="Days" class="text-danger"> </span>
+            </div>
+            <div class="form-group my-2">
+                <input type="submit" class="btn btn-warning col-1" value="Edit" />
+                <a class="btn btn-primary"  asp-action="Index" asp-controller="LeaveAllocation">Back To List</a>
+            </div>
+        </form>
+    </div>
+</div>

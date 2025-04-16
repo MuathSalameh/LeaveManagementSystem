@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Periods>
+<div class="container row">
+    <div class="mb-2 row">
+         <div class="col-12">
+            <a class="btn btn-primary" asp-action="Create" asp-controller="Period">Create New</a>
+         </div>    
+    </div>
+    <div class="">
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>
+                 @Html.DisplayNameFor(model => model.Name);
+
+                </th>
+                <th>
+                  @Html.DisplayNameFor(model=>model.StartDate);
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EndADate);
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                            @item.StartDate.ToString("yyyy/MM/dd")
+                    </td>
+                    <td>
+                            @item.EndADate.ToString("yyyy/MM/dd")
+                    </td>
+                    <td>
+                            <a class="btn btn-warning" asp-action="Edit" asp-controller="Period" asp-route-periodId="@item.Id">Edit</a>
+                            <a class="btn btn-danger " asp-controller="Period" asp-action="Delete" asp-route-periodId="@item.Id">Delete</a>
+                    </td> 
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>
+   </div>
+
